@@ -44,14 +44,11 @@ def get_file_id(file_name, parent_folder_id):
         print(f"File '{file_name}' not found in folder with ID '{parent_folder_id}'")
         return None
 
-def upload_photo(file_path):
-    creds=authentificate()
-    service=build('drive', 'v3', credentials=creds)
-    file_metadata={
-        'name' : "Hello",
-        'parents' : [PARENT_FOLDER_ID]
-    }
-    file=service.files().create(body=file_metadata, media_body=file_path).execute()
+def update_photo(file_id, new_photo_path):
+    service = authentificate()
+    media = MediaFileUpload(new_photo_path)
+    service.files().update(fileId=file_id, media_body=media).execute()
+    print(f"Photo with ID {file_id} updated successfully.")
 
 # Example usage
 file_id = get_file_id('lamp.png', PARENT_FOLDER_ID)
